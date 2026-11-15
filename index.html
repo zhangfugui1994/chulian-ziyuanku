@@ -11,34 +11,25 @@
   <header class="site-header">
     <div class="wrap nav">
       <a class="brand" href="index.html">初恋资源库</a>
-      <nav class="nav-cats" id="nav-cats"><!-- 顶部多栏目导航:首页 + 各分类,由 app.js 从数据生成 --></nav>
-      <span class="tag">GitHub × Cloudflare Pages</span>
+      <nav class="nav-cats" id="nav-cats"><!-- 顶部多分类导航:首页 + 各分类,由 app.js 从数据生成 --></nav>
+      <button class="login-btn" type="button">登录</button>
     </div>
   </header>
 
   <main class="wrap">
-    <section class="hero">
-      <h1>初恋资源库</h1>
-      <p class="lead">纯静态资料库,内容存于 <code>data/resources.json</code>,改完 push 自动上线。</p>
-      <div class="controls">
-        <input id="search" type="search" placeholder="搜索资料(标题/关键词/标签)..." aria-label="搜索" />
-        <select id="filter-category" aria-label="按分类筛选"></select>
-      </div>
+    <section class="controls">
+      <input id="search" type="search" placeholder="搜索资料(标题/关键词/标签)..." aria-label="搜索" />
+      <select id="filter-category" aria-label="按分类筛选"></select>
     </section>
 
-    <div class="content-grid">
-      <!-- 主列表区(左图右文卡片 + 分页) -->
-      <section class="list-col">
-        <div class="section-title">最新资源</div>
-        <div id="catalog" class="catalog" aria-live="polite">
-          <p class="muted">正在加载资料列表...</p>
-        </div>
-        <nav id="pager" class="pager" aria-label="分页"></nav>
-      </section>
+    <div class="section-title" id="section-title">最新资源</div>
 
-      <!-- 侧栏热门榜(参考站版式) -->
-      <aside class="side-col" id="sidebar"></aside>
-    </div>
+    <!-- 主列表:封面在上网格卡片 -->
+    <section id="catalog" class="catalog" aria-live="polite">
+      <p class="muted">正在加载资料列表...</p>
+    </section>
+
+    <nav id="pager" class="pager" aria-label="分页"></nav>
   </main>
 
   <footer class="site-footer">

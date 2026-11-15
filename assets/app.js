@@ -48,9 +48,9 @@ function coverBlock(r) {
   return `<div class="cover cover-fallback"><span>${escapeHtml((r.title || "").slice(0, 4))}</span></div>`;
 }
 
-// ---- 主列表卡片(左图右文,参考站版式)----
+// ---- 主列表卡片(封面在上、文字在下,参考站网格样式)----
 function cardHtml(r) {
-  const cat = r.category ? `<a class="chip cat" href="index.html?cat=${encodeURIComponent(r.category)}">${escapeHtml(r.category)}</a>` : "";
+  const cat = r.category ? `<span class="chip cat">${escapeHtml(r.category)}</span>` : "";
   const tags = (r.tags || []).map((t) => `<span class="chip">${escapeHtml(t)}</span>`).join("");
   const meta = [
     r.time ? `<span>${escapeHtml(r.time)}</span>` : "",
@@ -60,7 +60,7 @@ function cardHtml(r) {
   return `
     <article class="card">
       <a class="cover-wrap" href="resource.html?id=${encodeURIComponent(r.id)}">${coverBlock(r)}</a>
-      <div class="card-main">
+      <div class="card-body">
         <div class="chips">${cat}${tags}</div>
         <h3><a href="resource.html?id=${encodeURIComponent(r.id)}">${escapeHtml(r.title)}</a></h3>
         <p class="summary">${escapeHtml(r.summary || "")}</p>
@@ -171,6 +171,12 @@ function initListPage() {
     });
     // 分页切第一页
     page = 1;
+    // 章节标题随分类变化(参考站 24/7 小节风格)
+    const titleEl = $("#section-title");
+    if (titleEl) {
+      const catSel = $("#filter-category")?.value || new URLSearchParams(location.search).get("cat") || "";
+      titleEl.textContent = catSel ? catSel + " · 最新资源" : "最新资源";
+    }
     renderPaged(filtered);
   };
 
@@ -184,7 +190,6 @@ function initListPage() {
       renderPaged(filtered);
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
-    renderSidebar(all);
   };
 
   loadResources().then((items) => {
