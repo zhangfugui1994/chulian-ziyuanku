@@ -4,13 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>初恋资源库</title>
+  <meta name="description" content="资料详情页" />
   <link rel="stylesheet" href="assets/styles.css" />
 </head>
 <body>
   <header class="site-header">
     <div class="wrap nav">
       <a class="brand" href="index.html">初恋资源库</a>
-      <span class="tag">静态资料库 · GitHub × Cloudflare Pages</span>
+      <nav class="nav-cats" id="nav-cats"><!-- 顶部多分类导航,由 app.js 生成 --></nav>
+      <button class="login-btn" type="button">登录</button>
     </div>
   </header>
 
@@ -20,10 +22,15 @@
     </article>
   </main>
 
+  <section class="wrap related">
+    <div class="section-title" id="related-title">相关内容</div>
+    <div id="related" class="catalog"></div>
+  </section>
+
   <footer class="site-footer">
     <div class="wrap">
       <span>初恋资源库 · 静态站 · 部署于 Cloudflare Pages</span>
-      <span class="muted">部署文档:<a href="README.html">README</a></span>
+      <span class="muted">数据来源:仓库 <code>data/resources.json</code></span>
     </div>
   </footer>
 

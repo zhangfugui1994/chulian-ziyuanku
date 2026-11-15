@@ -205,6 +205,13 @@ function initListPage() {
   });
 }
 
+// ---- 相关推荐:同分类优先,否则取其余条目 ----
+function relatedItems(current, all) {
+  const sameCat = all.filter((r) => r.category && r.category === current.category && r.id !== current.id);
+  const others = all.filter((r) => r.id !== current.id && (!current.category || r.category !== current.category));
+  return [...sameCat, ...others].slice(0, 4);
+}
+
 // ---- 详情页 ----
 function initDetailPage() {
   if (!document.getElementById("detail")) return;
@@ -215,14 +222,15 @@ function initDetailPage() {
     const root = $("#detail");
     if (!item) {
       root.innerHTML = `<p class="empty">未找到该资料(id=${escapeHtml(id || "?")})。<a class="back" href="index.html">← 返回列表</a></p>`;
+      const rel = $("#related"); if (rel) rel.innerHTML = "";
+      const relTitle = $("#related-title"); if (relTitle) relTitle.textContent = "相关推荐";
+      // 顶栏导航(让详情页和首页顶栏一致)
+      renderNav(items || []);
       return;
     }
     document.title = item.title + " · 初恋资源库";
-    const cover = item.cover
-      ? `<img class="detail-cover" src="${escapeHtml(item.cover)}" alt="${escapeHtml(item.title)}" onerror="this.style.display='none'"/>`
-      : "";
     const tags = (item.tags || []).map((t) => `<span class="chip">${escapeHtml(t)}</span>`).join("");
-    const cat = item.category ? `<span class="chip cat">${escapeHtml(item.category)}</span>` : "";
+    const cat = item.category ? `<a class="chip cat" href="index.html?cat=${encodeURIComponent(item.category)}">${escapeHtml(item.category)}</a>` : "";
     const meta = [
       item.time ? `<span>${escapeHtml(item.time)}</span>` : "",
       item.price ? `<span class="free">${escapeHtml(item.price)}</span>` : "",
@@ -232,13 +240,28 @@ function initDetailPage() {
     root.innerHTML = `
       <a class="back" href="index.html">← 返回列表</a>
       <div class="detail-head">
-        ${cover ? `<div class="detail-cover-wrap">${cover}</div>` : ""}
+        <div class="detail-cover-wrap">${coverBlock(item)}</div>
         <div class="detail-title">
           <h1>${escapeHtml(item.title)}</h1>
-          <div class="meta">${cat}${tags}${meta}</div>
+          <div class="chips">${cat}${tags}</div>
+          <div class="meta">${meta}</div>
         </div>
       </div>
       <div class="body">${body}</div>`;
+
+    // 相关推荐(同分类优先)
+    const rel = $("#related");
+    if (rel) {
+      const rels = relatedItems(item, items || []);
+      if (rels.length) {
+        rel.innerHTML = rels.map(cardHtml).join("");
+        const relTitle = $("#related-title");
+        if (relTitle) relTitle.textContent = (item.category ? item.category + " · " : "") + "相关推荐";
+      } else {
+        rel.innerHTML = "";
+      }
+    }
+    renderNav(items || []);
   });
 }
 
