@@ -126,6 +126,24 @@
 - **修法**:换端口(如 `python -m http.server 8900`),或先确认/杀掉占用该端口的进程。
 - **要点**:每次本地预览换个端口最省事;`bash-3`/`bash-4` 这类后台服务用 `kill_shell` 停掉后要确认真退了,否则下次同端口还会撞。
 
+### 6.7 PowerShell 读写中文 JSON 必须显式 UTF-8(默认 GBK 会乱码)
+- **现象**:用 PowerShell `Get-Content` + `Set-Content` 处理 `data/resources.json`(含中文)后,中文全变乱码(「示例」→「绀轰緥」),再 `ConvertFrom-Json` 直接报「传入的对象无效,应为":"或"}"」(71)。
+- **根因**:Windows PowerShell(非 Core) 的 `Get-Content`/`Set-Content` 默认按 **系统 ANSI 代码页(GBK)** 读写,不是 UTF-8;读 UTF-8 中文 → 乱码,写回再破坏 JSON 结构。
+- **修法**(处理中文 JSON 一律走 Python 显式编码):
+  ```powershell
+  # 读/写都让 Python 用 UTF-8,PowerShell 只当调度
+  python -c "
+  import json
+  cur=json.load(open('data/resources.json',encoding='utf-8'))
+  ... 处理 ...
+  json.dump(merged, open('data/resources.json','w',encoding='utf-8'), ensure_ascii=False, indent=2)
+  "
+  ```
+- **要点**:
+  - 中文文件**别用** PowerShell `Get-Content`/`Set-Content`/`Out-File` 直接读写,除非显式 `-Encoding UTF8`(且写出来带 BOM,Python 要 `utf-8-sig` 读)。
+  - PowerShell 写的 `.json` 带 **BOM**,Python 侧要用 `encoding='utf-8-sig'` 读,否则 `Unexpected UTF-8 BOM`。
+  - 被 PowerShell 搞坏 `resources.json` 时,先 `git checkout -- data/resources.json` 恢复,再重做。
+
 ## 7. 升级路径(按需)
 
 | 需求 | 方案 |
