@@ -1,6 +1,6 @@
 # Cloudflare Pages 部署对照清单
 
-> 仓库:`zhangfugui1994/-`(HTTPS:`https://github.com/zhangfugui1994/-.git`)
+> 仓库:`zhangfugui1994/chulian-ziyuanku`(HTTPS:`https://github.com/zhangfugui1994/chulian-ziyuanku.git`)
 > 纯静态站,**无需构建**。
 
 ## 一、创建 Pages 项目(首次)
