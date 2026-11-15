@@ -1,0 +1,13 @@
+# Cloudflare Pages 自定义响应头(纯文本,非 JSON;放在仓库根目录,随站点部署生效)
+# 文档:https://developers.cloudflare.com/pages/platform/deployments/_headers/
+
+# 数据源是 UTF-8 JSON,必须显式声明 charset,否则 Cloudflare 默认按 Latin-1 解码,中文全乱码
+/data/resources.json
+  Content-Type: application/json; charset=utf-8
+  Cache-Control: public, max-age=300
+
+# 其它页面/静态资源兜底(可选,不影响现有功能)
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
