@@ -6,7 +6,7 @@
     "tags": ["示例", "占位"],
     "summary": "这是一条占位资料,用来演示资料库的展示结构。替换为你的真实内容即可。",
     "body": "这里是正文内容,支持多段文字。\n\n你可以把这段替换成真实的资料说明。",
-    "cover": "https://picsum.photos/seed/notes/300/200",
+    "cover": "https://placehold.co/600x338/2a2c35/8a8f9a?text=Notes",
     "hotness": 12550,
     "time": "2 月前",
     "price": "免费"
@@ -18,7 +18,7 @@
     "tags": ["示例", "性能"],
     "summary": "另一条占位资料,演示标签与分类筛选的用法。",
     "body": "静态站常见的优化点:\n\n- 图片压缩并使用 WebP\n- 关键 CSS 内联\n- 利用 CDN 缓存\n- 控制第三方脚本数量",
-    "cover": "https://picsum.photos/seed/perf/300/200",
+    "cover": "https://placehold.co/600x338/2a2c35/8a8f9a?text=Perf",
     "hotness": 4823,
     "time": "3 天前",
     "price": "免费"
@@ -30,7 +30,7 @@
     "tags": ["示例", "工具"],
     "summary": "演示热度排序:这条热度最高,会排在侧栏热门榜第一。",
     "body": "GitHub 常用工作流:\n\n- 分支管理\n- 代码审查\n- CI/CD 自动部署",
-    "cover": "https://picsum.photos/seed/git/300/200",
+    "cover": "https://placehold.co/600x338/2a2c35/8a8f9a?text=Git",
     "hotness": 99800,
     "time": "1 小时前",
     "price": "免费"
@@ -53,7 +53,7 @@
     "tags": ["示例", "部署"],
     "summary": "纯静态站 Pages 部署:构建命令留空,输出目录 ./。",
     "body": "Pages 部署要点:\n\n- Build command 留空\n- Build output directory 填 ./\n- 自定义域名走 Custom domains",
-    "cover": "https://picsum.photos/seed/cf/300/200",
+    "cover": "https://placehold.co/600x338/2a2c35/8a8f9a?text=Cloudflare",
     "hotness": 17750,
     "time": "2 天前",
     "price": "免费"
@@ -65,7 +65,7 @@
     "tags": ["示例", "数据"],
     "summary": "演示 id 唯一不可改的约束:详情页 ?id= 命中。",
     "body": "JSON 数据源设计原则:\n\n- id 唯一且不可改\n- category 驱动筛选下拉\n- 字段缺失时用默认占位",
-    "cover": "https://picsum.photos/seed/json/300/200",
+    "cover": "https://placehold.co/600x338/2a2c35/8a8f9a?text=JSON",
     "hotness": 2300,
     "time": "1 周前",
     "price": "免费"
@@ -77,7 +77,7 @@
     "tags": ["示例", "前端"],
     "summary": "本项目在 900px / 560px 两个断点切换单双栏。",
     "body": "响应式断点说明:\n\n- 900px:主列表+侧栏变单栏\n- 560px:卡片改纵向、封面铺满",
-    "cover": "https://picsum.photos/seed/rwd/300/200",
+    "cover": "https://placehold.co/600x338/2a2c35/8a8f9a?text=RWD",
     "hotness": 6100,
     "time": "6 天前",
     "price": "免费"
@@ -89,7 +89,7 @@
     "tags": ["示例", "设计"],
     "summary": "暗色主题的核心色变量,改主题只动 :root。",
     "body": "暗色主题配色:\n\n- 背景 #0f1115 / 卡片 #1d2230\n- 主色 #ff7ab6 / 辅色 #6ec1ff",
-    "cover": "https://picsum.photos/seed/dark/300/200",
+    "cover": "https://placehold.co/600x338/2a2c35/8a8f9a?text=Dark",
     "hotness": 1890,
     "time": "2 周前",
     "price": "免费"
@@ -101,7 +101,7 @@
     "tags": ["示例", "SEO"],
     "summary": "title/meta description/语义化标签,静态站也能做好 SEO。",
     "body": "SEO 清单:\n\n- 每页独立 title\n- meta description\n- 语义化 h1-h3\n- 图片 alt 与 lazy 加载",
-    "cover": "https://picsum.photos/seed/seo/300/200",
+    "cover": "https://placehold.co/600x338/2a2c35/8a8f9a?text=SEO",
     "hotness": 3450,
     "time": "4 天前",
     "price": "免费"
@@ -113,7 +113,7 @@
     "tags": ["示例", "工具"],
     "summary": "纯静态必须走 HTTP,python -m http.server 即可。",
     "body": "本地预览:\n\n- python -m http.server 8000\n- 或 npx serve .\n- 不能 file:// 直开(CORS)",
-    "cover": "https://picsum.photos/seed/local/300/200",
+    "cover": "https://placehold.co/600x338/2a2c35/8a8f9a?text=Local",
     "hotness": 980,
     "time": "3 周前",
     "price": "免费"
@@ -125,7 +125,7 @@
     "tags": ["示例", "工具"],
     "summary": "init/add/commit/push/remote 高频命令速查。",
     "body": "Git 常用命令:\n\n- git init / git add .\n- git commit -m / git push -u origin main\n- git remote set-url origin <url>",
-    "cover": "https://picsum.photos/seed/gits/300/200",
+    "cover": "https://placehold.co/600x338/2a2c35/8a8f9a?text=Git-Cmd",
     "hotness": 7200,
     "time": "1 月前",
     "price": "免费"
@@ -137,7 +137,7 @@
     "tags": ["示例", "前端"],
     "summary": "本列表 12 条/页,搜索与分类筛选切换自动回第 1 页。",
     "body": "交互说明:\n\n- PAGE_SIZE=12,超过自动出分页\n- 搜索/筛选后重置到第 1 页\n- ?cat= 直达某分类",
-    "cover": "https://picsum.photos/seed/page/300/200",
+    "cover": "https://placehold.co/600x338/2a2c35/8a8f9a?text=Pager",
     "hotness": 1500,
     "time": "昨天",
     "price": "免费"

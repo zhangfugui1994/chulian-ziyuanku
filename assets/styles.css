@@ -46,13 +46,20 @@ code {
 .site-header .nav {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px 20px;
+  gap: 0;
+  padding: 10px 20px;
   flex-wrap: wrap;
 }
-.brand { font-weight: 800; font-size: 1.05rem; color: var(--text); letter-spacing: 0.5px; }
+.brand {
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--text);
+  letter-spacing: 0.5px;
+  padding-right: 16px;
+  border-right: 1px solid var(--border);
+}
 .brand:hover { color: var(--accent); }
-.nav-cats { display: flex; flex-wrap: wrap; gap: 2px; margin-left: 12px; }
+.nav-cats { display: flex; flex-wrap: wrap; gap: 2px; margin-left: 16px; }
 .nav-item {
   color: var(--text-2);
   font-size: 0.88rem;
@@ -97,21 +104,25 @@ code {
 .controls select { flex: 0 0 auto; min-width: 160px; }
 .controls input:focus, .controls select:focus { border-color: var(--accent); }
 
-/* ===== 章节标题(参考站 24/7 那种小节) ===== */
+/* ===== 章节标题(参考站 24/7 那种小节,放大加粗) ===== */
 .section-title {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 8px;
-  margin: 18px 0 14px;
-  padding: 6px 12px;
-  background: var(--bg-soft);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  font-size: 0.95rem;
-  font-weight: 700;
+  gap: 10px;
+  margin: 26px 0 16px;
+  font-size: 1.35rem;
+  font-weight: 800;
   color: var(--text);
+  letter-spacing: 0.5px;
 }
-.section-title::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+.section-title::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+}
 
 /* ===== 主列表:封面在上网格卡片 ===== */
 .catalog {
@@ -133,7 +144,8 @@ code {
 .card .cover-wrap { display: block; }
 .card .cover {
   width: 100%;
-  height: 150px;
+  aspect-ratio: 16 / 9;
+  height: auto;
   object-fit: cover;
   display: block;
   background: var(--bg-soft);
@@ -142,6 +154,8 @@ code {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  aspect-ratio: 16 / 9;
   background: linear-gradient(135deg, #2a2c35, #1c1e24);
   color: var(--muted);
   font-size: 1.3rem;
@@ -167,7 +181,15 @@ code {
 }
 .chip::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
 .chip.cat { color: var(--accent-soft); }
-.card h3 { margin: 2px 0 0; font-size: 0.98rem; font-weight: 600; line-height: 1.45; }
+.card h3 {
+  margin: 2px 0 0;
+  font-size: 0.98rem;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .card h3 a { color: var(--text); }
 .card h3 a:hover { color: var(--accent-soft); }
 .card .summary { margin: 0; color: var(--muted); font-size: 0.84rem; line-height: 1.55; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
