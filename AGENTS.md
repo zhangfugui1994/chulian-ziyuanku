@@ -57,10 +57,11 @@
 }
 ```
 
-**布局(参考 vip.gamers520.com 版式)**:
-- `index.html`:顶部多栏目导航(`#nav-cats`,由 `category` 自动生成:首页 + 各分类)→ 主列表区(卡片**左图右文**:封面/占位块 + 标签 + 标题 + 摘要 + 时间/价格/热度)→ **侧栏热门榜**(`#sidebar`,按 `hotness` 降序取前 8)→ **分页**(`#pager`,`PAGE_SIZE=12`)。
+**布局(参考 vip.gamers520.com 版式,深底克制配色)**:
+- `index.html`:顶部多分类导航(`#nav-cats`,由 `category` 自动生成:首页 + 各分类,橙色 active 下划线)+ 顶栏「登录」按钮(装饰)→ 控制条(搜索 + 分类筛选)→ 章节标题(`#section-title`,随分类动态变,如「示例 · 最新资源」)→ **主列表(封面在上网格卡片**:`.card` 内 `cover-wrap` 封面图/占位块在上,`.card-body` 文字区在下,响应式 4→2→1 列)→ **分页**(`#pager`,`PAGE_SIZE=12`)。
 - 搜索/分类筛选切换时**自动回到第 1 页**;`?cat=` 可直达某分类。
-- 常量在 `assets/app.js` 顶部:`PAGE_SIZE`、`SIDEBAR_TOP`(改每页条数/榜单长度只需改这里)。
+- 常量在 `assets/app.js` 顶部:`PAGE_SIZE`(每页条数)、`SIDEBAR_TOP`(侧栏榜长度,当前未启用)。
+- **侧栏热门榜结构仍在(`#sidebar`,CSS `display:none`)**:将来要启用只需改回布局,`hotness` 字段保留。
 
 **字段规则**:
 - `id` 被详情页 `?id=` 引用,**必须唯一、不可改**(改了旧链接会 404)。
