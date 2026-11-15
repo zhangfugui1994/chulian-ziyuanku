@@ -2,6 +2,9 @@
 .reasonix/
 .DS_Store
 
+# 抓取记录 / 中间数据(不进仓库,本地存)
+.scrape/
+
 # 日志
 *.log
 node_modules/
