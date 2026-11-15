@@ -144,6 +144,20 @@
   - PowerShell 写的 `.json` 带 **BOM**,Python 侧要用 `encoding='utf-8-sig'` 读,否则 `Unexpected UTF-8 BOM`。
   - 被 PowerShell 搞坏 `resources.json` 时,先 `git checkout -- data/resources.json` 恢复,再重做。
 
+### 6.8 线上中文乱码:Cloudflare Pages 默认不声明 charset,须用 `_headers` 强制 UTF-8
+- **现象**:线上 `fetch('data/resources.json')` 拿到乱码(「示例」→「ç¤ºä¾»),列表页卡「正在加载资料列表...」。`Invoke-WebRequest` 看 `Content-Type` 只有 `application/json`(没 `charset`),bytes 本身是正常 UTF-8。
+- **根因**:Cloudflare Pages 对 `.json` 文件默认响应头 **不声明 `charset=utf-8`**,客户端(浏览器/`fetch`)按默认 charset 误解 UTF-8 字节 → 典型「UTF-8 被当 Latin-1 读」的 mojibake。
+- **修法**(仓库根放 `_headers` 文件,随站点部署):
+  ```
+  /data/resources.json
+    Content-Type: application/json; charset=utf-8
+    Cache-Control: public, max-age=300
+  ```
+- **要点**:
+  - Cloudflare Pages 的响应头约定是 **仓库根目录的 `_headers`**(纯文本,非 JSON;文档 `<站点域名>` 路径规则)。
+  - 改完 `git push` 后 Cloudflare 自动重新部署,**等 1~3 分钟**生效(可用 `Invoke-WebRequest` 看 `Content-Type` 是否带 `charset=utf-8` 确认)。
+  - 同文件本地 `python -m http.server` 能正常是因为本地 Python HTTP 服务默认对 `.json` 带了 charset,线上没带——**本地正常 ≠ 线上正常**。
+
 ## 7. 升级路径(按需)
 
 | 需求 | 方案 |
