@@ -237,6 +237,19 @@ function initDetailPage() {
       item.hotness != null ? `<span class="hot">热度 ${fmtHotness(item.hotness)}</span>` : "",
     ].filter(Boolean).join("");
     const body = (item.body || "暂无正文。").split(/\n+/).map((p) => `<p>${escapeHtml(p)}</p>`).join("");
+    // 分享链接区(Excel 导入:share / share_code / share_netdisk)
+    let shareHtml = "";
+    if (item.share) {
+      const netdisk = item.share_netdisk ? `<span class="share-netdisk">${escapeHtml(item.share_netdisk)}网盘</span>` : "";
+      const code = item.share_code ? `<div class="share-code"><label>解压/提取码</label><code>${escapeHtml(item.share_code)}</code><button class="copy-btn" data-copy="${escapeHtml(item.share_code)}">复制</button></div>` : "";
+      shareHtml = `
+        <div class="share-box">
+          <h2>下载链接</h2>
+          <div class="share-row"><span class="share-label">链接</span><code class="share-url">${escapeHtml(item.share)}</code><button class="copy-btn" data-copy="${escapeHtml(item.share)}">复制</button></div>
+          ${netdisk ? `<div class="share-row"><span class="share-label">网盘</span><span class="share-netdisk">${netdisk}</span></div>` : ""}
+          ${code}
+        </div>`;
+    }
     root.innerHTML = `
       <a class="back" href="index.html">← 返回列表</a>
       <div class="detail-head">
@@ -247,7 +260,18 @@ function initDetailPage() {
           <div class="meta">${meta}</div>
         </div>
       </div>
+      ${shareHtml}
       <div class="body">${body}</div>`;
+    // 一键复制
+    root.querySelectorAll(".copy-btn[data-copy]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const v = btn.dataset.copy;
+        navigator.clipboard.writeText(v).then(
+          () => { btn.textContent = "已复制"; setTimeout(() => (btn.textContent = "复制"), 1500); },
+          () => { btn.textContent = "复制失败"; }
+        );
+      });
+    });
 
     // 相关推荐(同分类优先)
     const rel = $("#related");
