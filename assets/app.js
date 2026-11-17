@@ -237,18 +237,28 @@ function initDetailPage() {
       item.hotness != null ? `<span class="hot">热度 ${fmtHotness(item.hotness)}</span>` : "",
     ].filter(Boolean).join("");
     const body = (item.body || "暂无正文。").split(/\n+/).map((p) => `<p>${escapeHtml(p)}</p>`).join("");
-    // 分享链接区(Excel 导入:share / share_code / share_netdisk)
+    // 分享链接区(share / share_code / share_netdisk + 可选 share_alt 多网盘)
     let shareHtml = "";
-    if (item.share) {
-      const netdisk = item.share_netdisk ? `<span class="share-netdisk">${escapeHtml(item.share_netdisk)}网盘</span>` : "";
-      const code = item.share_code ? `<div class="share-code"><label>解压/提取码</label><code>${escapeHtml(item.share_code)}</code><button class="copy-btn" data-copy="${escapeHtml(item.share_code)}">复制</button></div>` : "";
-      shareHtml = `
-        <div class="share-box">
-          <h2>下载链接</h2>
-          <div class="share-row"><span class="share-label">链接</span><code class="share-url">${escapeHtml(item.share)}</code><button class="copy-btn" data-copy="${escapeHtml(item.share)}">复制</button></div>
-          ${netdisk ? `<div class="share-row"><span class="share-label">网盘</span><span class="share-netdisk">${netdisk}</span></div>` : ""}
-          ${code}
+    if (item.share || (item.share_alt && item.share_alt.length)) {
+      const row = (label, url, code, btnLabel) => {
+        const copyAttr = code ? ` data-copy="${escapeHtml(code)}"` : ` data-copy="${escapeHtml(url)}"`;
+        const codePart = code ? `<code class="share-code-inline">${escapeHtml(code)}</code>` : "";
+        return `<div class="share-row">
+          <span class="share-label">${escapeHtml(label)}</span>
+          <code class="share-url">${escapeHtml(url)}</code>
+          ${codePart}
+          <button class="copy-btn" data-copy="${escapeHtml(code || url)}">${btnLabel || "复制"}</button>
         </div>`;
+      };
+      // 主链接 + 其他网盘
+      let rows = "";
+      if (item.share) {
+        rows += row(item.share_netdisk || "链接", item.share, item.share_code || "", "复制");
+      }
+      (item.share_alt || []).forEach((a) => {
+        rows += row(a.netdisk || "网盘", a.url, a.code || "", "复制");
+      });
+      shareHtml = `<div class="share-box"><h2>下载链接</h2>${rows}</div>`;
     }
     root.innerHTML = `
       <a class="back" href="index.html">← 返回列表</a>
