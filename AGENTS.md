@@ -162,6 +162,25 @@
   - 改完 `git push` 后 Cloudflare 自动重新部署,**等 1~3 分钟**生效(可用 `Invoke-WebRequest` 看 `Content-Type` 是否带 `charset=utf-8` 确认)。
   - 同文件本地 `python -m http.server` 能正常是因为本地 Python HTTP 服务默认对 `.json` 带了 charset,线上没带——**本地正常 ≠ 线上正常**。
 
+### 6.9 抓取 pcplay 游戏资源:懒加载封面 / 编码 / 正则(本项目的游戏板块来源)
+- **来源**:`vip.gamers520.com/pcplay`(共 614 页,每页 20 条,末页 2 条,≈12278 条)。抓取记录在本地 `.scrape/scrape_record.json`(不进 Git)。
+- **已抓**:614→610 共 82 条已转入库;剩余 609→1 未抓。
+- **踩坑**:
+  1. **封面取错**:列表页 `<img src>` 是懒加载占位 `data:image/gif;base64,...`,**真图在 `data-src` 属性**(取 `src` 会得到空 gif)。
+  2. **正则切 article 块**:每个 `<article id="post-N">`,标题在 `h2.entry-title > a`(取 text + href),封面在 `img[data-src]`,分类在 `span.meta-category a`。
+  3. **PowerShell 写 JSON 带 BOM**,Python 侧读要用 `utf-8-sig`。
+  4. **id 规则**:`pc-<游戏名去标点(≤16字)>-<postid>`,postid 唯一保证不撞。
+- **后续**:说「继续抓取」就读 `.scrape/scrape_record.json` 的 `next_range`,接着往 1 页抓。
+
+### 6.10 分享链接导入:Excel/CSV 多源交叉匹配 + 多网盘 `share_alt`
+- **背景**:游戏板块要配用户自己的网盘分享链接,来源混在多种文件里(xlsx 带完整链接列 / xlsx 只有编号+网盘列 / csv 的「文件名→链接」池),靠**交叉匹配**才能对上。
+- **踩坑**:
+  1. **匹配别用 `id` 猜**:`id` 里游戏名截断/去标点后,直接拿 `id` 匹配 Excel 游戏名会漏(如「错误的信标/fault milestone one」匹配不到)。改用 **`title` 归一化(去标点/空格/小写)后与 Excel「游戏名称」互包含**匹配。
+  2. **编号→链接间接匹配**:有些 Excel 没有直接链接,只给「游戏编号」,链接在另一个 CSV 的「文件名」列里。要建两层 map:`游戏名↔编号`(xlsx)+ `编号→链接`(csv),两步接上。
+  3. **多网盘**:`share_alt: [{netdisk,url,code}]` 存主链接之外的网盘(如怪物猎人荒野 = 百度主 + 迅雷 + 夸克)。详情页渲染循环 `share` + `share_alt`。
+  4. **改链接要连带正文**:替换 `share`/`share_code` 时,`body` 里常硬写了「文件密码: XXX」,要一并 `replace`,否则详情页正文和链接区密码对不上。
+- **经验**:网盘类型标签别在 `share_netdisk` 里写「百度网盘」又让前端拼「网盘」→ 显示成「百度网盘网盘」。前端只取原值,值本身含「网盘」就原样显示。
+
 ## 7. 升级路径(按需)
 
 | 需求 | 方案 |
@@ -176,4 +195,5 @@
 2. **改资料**:编辑 `data/resources.json`(数组加项,字段见 §4),`git add . && git commit -m "..." && git push`(推 `zhangfugui1994/chulian-ziyuanku` 的 `main`)。
 3. **部署**:Cloudflare Pages 已对接该仓库,**构建命令必须留空**,`push` 后自动重新部署。
 4. **本地预览**:`python -m http.server 8000` 后开 `http://localhost:8000`(不能 `file://`)。
-5. **别踩坑**:先翻 §6,尤其 6.1(构建命令留空)、6.3(凭据账号混淆)。
+5. **别踩坑**:先翻 §6,尤其 6.1(构建命令留空)、6.3(凭据账号混淆)、6.8(线上 charset)、6.9/6.10(抓取 + 分享链接)。
+6. **游戏板块**:来源 `vip.gamers520.com/pcplay`,抓取/补链接进度记在本地 `.scrape/scrape_record.json`(不进 Git),用户说「继续抓取」就读它接着干。
